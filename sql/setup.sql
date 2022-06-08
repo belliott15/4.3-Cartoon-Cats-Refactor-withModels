@@ -9,4 +9,6 @@ CREATE table cats (
 );
 
 INSERT INTO cats (name, age) VALUES
-('demon', 2);
+('demon', 2),
+('will', 4), 
+('cody', 3);
