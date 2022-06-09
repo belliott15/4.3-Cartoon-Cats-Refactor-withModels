@@ -3,7 +3,7 @@ const setup = require('../data/setup');
 const request = require('supertest');
 const app = require('../lib/app');
 
-const { cats } = require('../data/cats');
+const CartoonCat = require('../lib/models/CartoonCat');
 
 describe('cats routes', () => {
   beforeEach(() => {
@@ -12,10 +12,8 @@ describe('cats routes', () => {
 
   it('/cats should return a list of cats', async () => {
     const res = await request(app).get('/cats');
-    const expected = cats.map((cat) => {
-      return { id: cat.id, name: cat.name };
-    });
-    console.log('expected', expected);
+    const allCats =  await CartoonCat.getAllCats();
+    const expected = allCats.map(({ id, name }) => ({ id, name }));
     expect(res.body).toEqual(expected);
   });
 
@@ -28,7 +26,7 @@ describe('cats routes', () => {
       url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Felix_the_cat.svg/200px-Felix_the_cat.svg.png',
       year: 1892,
       lives: 3,
-      isSidekick: false,
+      isSidekick: false
     };
     expect(res.body).toEqual(felix);
   });
